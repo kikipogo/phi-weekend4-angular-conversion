@@ -1,19 +1,13 @@
-myApp.controller('TaskController', ['$http', function($http){
+myApp.controller('TaskController', ['$http', 'TaskFactory', function($http, TaskFactory){
   console.log('The TaskController was loaded');
   var self = this;
   self.newTask = {};
-  self.taskList = [];
+  self.taskList = TaskFactory.tasks;
 
-  getTasks();
+  getAllOfTheTasks();
 
-  function getTasks() {
-    $http({
-      method: 'GET',
-      url: '/tasks'
-    }).then(function(response) {
-      console.log(response.data);
-      self.taskList = response.data;
-    });
+  function getAllOfTheTasks() {
+    TaskFactory.updateTasks();
   }
 
   self.addTask = function() {
@@ -23,7 +17,7 @@ myApp.controller('TaskController', ['$http', function($http){
       data: self.newTask
     }).then(function(response){
       console.log(response);
-      getTasks();
+      getAllOfTheTasks();
       self.newTask = {};
     });
   }
@@ -33,7 +27,7 @@ myApp.controller('TaskController', ['$http', function($http){
       method: 'DELETE',
       url: '/tasks/' + taskId
     }).then(function(response) {
-      getTasks();
+      getAllOfTheTasks();
     });
   }
 
@@ -42,7 +36,7 @@ myApp.controller('TaskController', ['$http', function($http){
       method: 'PUT',
       url: '/tasks/complete/' + taskId
     }).then(function(response) {
-      getTasks();
+      getAllOfTheTasks();
     });
   }
 
@@ -51,7 +45,7 @@ myApp.controller('TaskController', ['$http', function($http){
       method: 'PUT',
       url: '/tasks/uncomplete/' + taskId
     }).then(function(response) {
-      getTasks();
+      getAllOfTheTasks();
     });
   }
 
