@@ -1,11 +1,11 @@
-myApp.controller('TaskController', ['$http', 'TaskFactory', function($http, TaskFactory){
+myApp.controller('TaskController', ['TaskFactory', function(TaskFactory){
   console.log('The TaskController was loaded');
   var self = this;
-  // self.newTask = {};
+  self.newTask = {};
   self.taskList = TaskFactory.allTasks;
 
   self.addTask = function() {
-    TaskFactory.addTask();
+    TaskFactory.addTask(self.newTask);
   }
 
   self.deleteTask = function(taskId) {

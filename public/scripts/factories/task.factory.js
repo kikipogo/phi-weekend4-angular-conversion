@@ -17,6 +17,17 @@ myApp.factory('TaskFactory', ['$http', function($http) {
     });
   }
 
+  function addTask(newTask){
+  $http({
+    method: 'POST',
+    url: '/tasks',
+    data: newTask
+  }).then(function(response){
+    console.log(response);
+    getTasks();
+  });
+  }
+
   function completeTask(taskId){
   // $http request moves to factory because its the glue between the factory and the server
     $http({
@@ -45,17 +56,6 @@ $http({
 });
 }
 
-function addTask(){
-$http({
-  method: 'POST',
-  url: '/tasks',
-  data: self.newTask
-}).then(function(response){
-  console.log(response);
-  getTasks();
-  self.newTask = {};
-});
-}
 
   // this is the public API, if it's not in here, your controller won't see it
   return {
